@@ -15,6 +15,9 @@
 - [ ] Gestion du mode Offline (Stockage local ESP32).
 
 ## 📊 Étape 3 : Dashboard React
+- [x] Création du répertoire pour le frontend (`frontend/dashboard`).
+- [x] Initialisation de l'application React (`create-react-app`).
+- [x] Configuration de Tailwind CSS dans l'application React.
 - [ ] Vue "Investisseur" (Suivi du budget de construction).
 - [ ] Vue "Live" (État des 10 postes avec Socket.io).
 - [ ] Graphiques financiers (Revenus journaliers/mensuels).
