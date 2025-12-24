@@ -10,8 +10,8 @@
 - [x] Mise à jour des documents de conception (`.md`) pour refléter l'utilisation de Supabase.
 
 ## 🏗 Étape 2 : Connectivité IoT (Dès le 24/12)
-- [ ] Création de l'endpoint API `/api/v1/iot/collect`.
-- [ ] Simulation d'envoi de données JSON depuis l'ESP32 vers le Backend.
+- [x] Création de l'endpoint API `/api/v1/iot/collect`.
+- [x] Simulation d'envoi de données JSON depuis l'ESP32 vers le Backend.
 - [ ] Gestion du mode Offline (Stockage local ESP32).
 
 ## 📊 Étape 3 : Dashboard React

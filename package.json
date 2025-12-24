@@ -1,0 +1,24 @@
+{
+  "name": "smartwash-pro",
+  "version": "1.0.0",
+  "description": "",
+  "main": "._simulation.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ulfrank2024/SmartWash-Pro.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/ulfrank2024/SmartWash-Pro/issues"
+  },
+  "homepage": "https://github.com/ulfrank2024/SmartWash-Pro#readme",
+  "dependencies": {
+    "node-fetch": "^2.7.0"
+  }
+}
