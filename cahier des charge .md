@@ -54,13 +54,56 @@ Sécurité : Cryptage léger des données envoyées pour éviter qu'un petit mal
 
 Watchdog : Redémarrage automatique du système en cas de plantage du code.
 
-5. Modèle de Données (Schéma Supabase/PostgreSQL Simplifié)
-Sites : Nom, ville, budget total.
+5. Modèle de Données (Schéma Supabase/PostgreSQL Détailé)
 
-Machines : ID, type (Esclave/Maître), état actuel.
+**Cities**
+- `id` (UUID, PK)
+- `name` (VARCHAR)
+- `country` (VARCHAR, ex: "Cameroun")
+- `created_at` (TIMESTAMP)
+- `updated_at` (TIMESTAMP)
 
-Transactions : Montant, durée, date, machine_id.
+**ServicePoints** (anciennement `Sites`, étendu)
+- `id` (UUID, PK)
+- `city_id` (UUID, FK vers `Cities.id`)
+- `name` (VARCHAR, ex: "Akwa")
+- `address` (VARCHAR)
+- `budget_prev` (NUMERIC)
+- `status_construction` (VARCHAR)
+- `created_at` (TIMESTAMP)
+- `updated_at` (TIMESTAMP)
 
-Dépenses : Catégorie, montant, photo_reçu.
+**WashingStations** (anciennement `Machines`, étendu)
+- `id` (UUID, PK)
+- `service_point_id` (UUID, FK vers `ServicePoints.id`)
+- `name` (VARCHAR, ex: "Poste 1")
+- `type` (VARCHAR, ex: "Esclave/Maître")
+- `status` (VARCHAR, ex: "AVAILABLE", "BUSY", "OFFLINE", "ERROR")
+- `last_heartbeat` (TIMESTAMP)
+- `created_at` (TIMESTAMP)
+- `updated_at` (TIMESTAMP)
 
-Utilisateurs : Rôles (Admin, Investisseur, Manager, Employé).
+**Transactions**
+- `montant` (NUMERIC)
+- `durée` (INTEGER)
+- `date` (TIMESTAMP)
+- `washing_station_id` (UUID, FK vers `WashingStations.id`)
+
+**Expenses** (anciennement `Dépenses`)
+- `id` (UUID, PK)
+- `service_point_id` (UUID, FK vers `ServicePoints.id`)
+- `category` (VARCHAR)
+- `amount` (NUMERIC)
+- `receipt_photo_url` (VARCHAR)
+- `validated_by_admin` (BOOLEAN)
+- `created_at` (TIMESTAMP)
+- `updated_at` (TIMESTAMP)
+
+**Users** (anciennement `Utilisateurs`, étendu)
+- `id` (UUID, PK)
+- `email` (VARCHAR)
+- `password_hash` (VARCHAR)
+- `role` (VARCHAR, ex: "Admin", "Investor", "Manager", "Employee", "CashCollector", "MaintenancePersonnel")
+- `assigned_service_point_id` (UUID, FK vers `ServicePoints.id`, NULLable) - pour les rôles comme CashCollector ou MaintenancePersonnel
+- `created_at` (TIMESTAMP)
+- `updated_at` (TIMESTAMP)

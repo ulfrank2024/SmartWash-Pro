@@ -1,17 +1,19 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
+const cors = require('cors'); // Import cors middleware
 
 dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 5004;
 
-// const financeRoutes = require('./routes/finance');
+const financeRoutes = require('./routes/finance');
 
 app.use(bodyParser.json());
+app.use(cors()); // Use cors middleware
 
-app.use('/api/v1/finance', /*financeRoutes*/);
+app.use('/api/v1/finance', financeRoutes);
 
 app.get('/', (req, res) => {
     res.send('Finance Service est en marche !');

@@ -1,17 +1,19 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
+const cors = require('cors'); // Import cors middleware
 
 dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 5001;
 
-// const authRoutes = require('./routes/auth');
+const authRoutes = require('./routes/auth');
 
 app.use(bodyParser.json());
+app.use(cors()); // Use cors middleware
 
-app.use('/api/v1/auth', /*authRoutes*/);
+app.use('/api/v1/auth', authRoutes);
 
 app.get('/', (req, res) => {
     res.send('Auth Service est en marche !');

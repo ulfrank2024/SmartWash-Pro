@@ -1,18 +1,31 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
+const http = require('http'); // Importer le module http
+const { Server } = require('socket.io'); // Importer Server depuis socket.io
+const cors = require('cors'); // Import cors middleware
 
-// Charger les variables d'environnement du fichier .env à la racine du service
 dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 5003;
 
-// Importer les routes
-const iotRoutes = require('./routes/iot');
+// Créer le serveur HTTP à partir de l'application Express
+const server = http.createServer(app);
 
-// Middleware pour parser le JSON
+// Initialiser Socket.io avec le serveur HTTP
+const io = new Server(server, {
+    cors: {
+        origin: "*", // Autoriser toutes les origines pour les tests, à restreindre en production
+        methods: ["GET", "POST"]
+    }
+});
+
+// Importer les routes et leur passer l'instance io
+const iotRoutes = require('./routes/iot')(io);
+
 app.use(bodyParser.json());
+app.use(cors()); // Use cors middleware for Express routes
 
 console.log("Démarrage du service IoT...");
 
@@ -23,8 +36,20 @@ app.get('/', (req, res) => {
     res.send('IoT Service est en marche !');
 });
 
-const server = app.listen(port, '0.0.0.0', () => { // Écouter sur 0.0.0.0
-    console.log(`Le service IoT écoute sur le port ${port}`);
+// Gestion des connexions Socket.io
+io.on('connection', (socket) => {
+    console.log('Un client Socket.io est connecté :', socket.id);
+
+    socket.on('disconnect', () => {
+        console.log('Un client Socket.io est déconnecté :', socket.id);
+    });
+
+    // Optionnel: Émettre un événement à la connexion pour confirmer
+    socket.emit('status', { message: 'Connecté au service IoT en temps réel.' });
+});
+
+server.listen(port, '0.0.0.0', () => { // Le serveur HTTP écoute maintenant
+    console.log(`Le service IoT (HTTP + Socket.io) écoute sur le port ${port}`);
     const address = server.address();
     console.log(`Adresse du serveur: ${address.address}:${address.port}`);
 });

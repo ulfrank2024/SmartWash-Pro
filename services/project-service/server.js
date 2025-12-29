@@ -1,17 +1,19 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
+const cors = require('cors'); // Import cors middleware
 
 dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 5002;
 
-// const projectRoutes = require('./routes/projects');
+const projectRoutes = require('./routes/projects');
 
 app.use(bodyParser.json());
+app.use(cors()); // Use cors middleware
 
-app.use('/api/v1/projects', /*projectRoutes*/);
+app.use('/api/v1/projects', projectRoutes);
 
 app.get('/', (req, res) => {
     res.send('Project Service est en marche !');
